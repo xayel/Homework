@@ -365,9 +365,8 @@ private:
      * @param t 当前节点指针
      */
     void remove(const Comparable &x, BinaryNode * &t) {
-        /// 这个逻辑其实是 find and remove, 从 t 开始
         if (t == nullptr) {
-            return;  /// 元素不存在
+            return; 
         }
         while (x != t->element){
             if (x < t->element) {
@@ -379,20 +378,14 @@ private:
                 return; 
             }
         }
-        /// 进入以下这两个分支，都是说明找到了要删除的元素
-        if (t->left != nullptr && t->right != nullptr) {  /// 有两个子节点
-            /// 将右子树中的最小元素替换当前节点，这里实际上只是替换值，不是替换节点
+        if (t->left != nullptr && t->right != nullptr) {
             BinaryNode *Newnode = detachMin(t->right);
             BinaryNode *oldNode1 = t;
             t = Newnode;
             t->left = oldNode1->left;
             t->right = oldNode1->right;
-            /// 然后递归删除右子树中的最小元素
             delete oldNode1;
-            /// 这是一种效率较低的做法，更好的做法是做节点的替换和移动
-            /// 但会更加复杂，我们在后面再讨论
         } else {
-            /// 有一个或没有子节点的情形是简单的
             BinaryNode *oldNode2 = t;
             t = (t->left != nullptr) ? t->left : t->right;
             delete oldNode2;
