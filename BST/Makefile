@@ -19,7 +19,7 @@ run:
 
 # 清理编译生成的文件
 clean:
-	rm -f $(PROGRAM_EXE) $(REPORT_PDF) *.aux *.log *.out
+	rm -f $(PROGRAM_EXE) $(REPORT_PDF)
 
 report:  
 	xelatex report.tex  
