@@ -1,0 +1,66 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{李业翔, 3220103288}
+\chead{数据结构与算法第六次作业}
+\rhead{Nov.11th, 2024}
+
+\section*{remove函数的实现}
+
+首先检查t是否为空，如果为空，则直接返回。
+
+之后定义三个指针变量parent,current,successorParent。
+其中，current指针用于遍历树以找到要删除的节点，parent指针跟踪current的父节点，successorParent指针用于处理节点有两个子节点的情况，指向找到的替代删除节点的继任节点的父节点。
+
+用while循环寻找值为x的节点，循环结束后，若current为nullptr，说明没有找到值为x的节点，什么也不做，函数返回。找到要删除的节点后，根据节点的子节点数量来决定如何删除。
+
+1.如果节点没有子节点，可以直接删除该节点。如果该节点是根节点（parent 为空），则将根节点设置为nullptr；否则，将父节点的相应子节点指针设置为nullptr。
+
+2.如果节点有两个子节点，需要找到右子树中的最小节点（ 继任节点） 来替换当前节点。继任节点是current->right子树中最左边的节点。找到继任节点后，先利用继任节点的父节点将继任节点删除，再将继任节点移动到当前节点的位置。
+
+3.如果节点只有一个子节点，可以直接删除该节点，并将其子节点提升到该位置。
+
+最后delete current，从内存中删除节点，避免内存泄漏，然后调用balance()函数，保持树的平衡。
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
