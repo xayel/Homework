@@ -365,30 +365,27 @@ private:
      * @param t 当前节点指针
      */
     void remove(const Comparable &x, BinaryNode * &t) {
+        //如果t是nullptr，说明找不到值为x的节点，remove不进行操作
         if (t == nullptr) {
-            return; 
+            return;  
         }
-        while (x != t->element){
-            if (x < t->element) {
-                t = t->left;
-            } else {
-                t = t->right;
-            } 
-            if (t == nullptr) {
-                return; 
-            }
-        }
-        if (t->left != nullptr && t->right != nullptr) {
-            BinaryNode *Newnode = detachMin(t->right);
-            BinaryNode *oldNode1 = t;
-            t = Newnode;
-            t->left = oldNode1->left;
-            t->right = oldNode1->right;
-            delete oldNode1;
+        if (x < t->element) {
+            remove(x, t->left);
+        } else if (x > t->element) {
+            remove(x, t->right);
+        } 
+        //找到了要删除的节点，且节点有两个子树的情况
+        else if (t->left != nullptr && t->right != nullptr) { 
+            BinaryNode *temp = detachMin(t->right);
+            BinaryNode *oldNode = t;
+            temp->left = t->left;
+            temp->right = t->right;
+            t = temp;   //注意remove函数用的是引用关系，故t的修改会引起t的父节点的left或right的修改
+            delete oldNode;
         } else {
-            BinaryNode *oldNode2 = t;
+            BinaryNode *oldNode = t;
             t = (t->left != nullptr) ? t->left : t->right;
-            delete oldNode2;
+            delete oldNode;
         }
     }
 
@@ -406,14 +403,14 @@ private:
     }
 
     BinaryNode *detachMin(BinaryNode *&t){
-        BinaryNode *Node = t;
-        while (t->left != findMin(Node))
-        {
-            t = t->left;
+        if (t == nullptr)
+            return nullptr;
+        if (t->left == nullptr){
+            BinaryNode *tmp = t;
+            t = t->right;
+            return tmp;
         }
-        BinaryNode *oldNode = t->left;
-        t->left = nullptr;
-        return oldNode;
+        return detachMin(t->left);  //递归的好处是利用了变量的引用，从而不用追踪父节点
     }
 };
 
