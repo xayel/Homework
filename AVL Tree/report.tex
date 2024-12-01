@@ -42,22 +42,18 @@
 \chead{数据结构与算法第六次作业}
 \rhead{Nov.11th, 2024}
 
-\section*{remove函数的实现}
+\section{remove函数的实现}
 
-首先检查t是否为空，如果为空，则直接返回。
+仿照课本代码AvlTree.h，在BinaryNode结构体里添加height，并定义height()函数获取节点高度，以及定义在后续会用到的max()函数。
 
-之后定义三个指针变量parent,current,successorParent。
-其中，current指针用于遍历树以找到要删除的节点，parent指针跟踪current的父节点，successorParent指针用于处理节点有两个子节点的情况，指向找到的替代删除节点的继任节点的父节点。
+仿照课本代码AvlTree.h，定义balance()函数以及相关的平衡操作函数。
 
-用while循环寻找值为x的节点，循环结束后，若current为nullptr，说明没有找到值为x的节点，什么也不做，函数返回。找到要删除的节点后，根据节点的子节点数量来决定如何删除。
+最后在insert()函数和remove()函数的末尾加上balance(t)操作，以平衡树并更新节点的高度。
 
-1.如果节点没有子节点，可以直接删除该节点。如果该节点是根节点（parent 为空），则将根节点设置为nullptr；否则，将父节点的相应子节点指针设置为nullptr。
+\section{测试结果与分析}
 
-2.如果节点有两个子节点，需要找到右子树中的最小节点（ 继任节点） 来替换当前节点。继任节点是current->right子树中最左边的节点。找到继任节点后，先利用继任节点的父节点将继任节点删除，再将继任节点移动到当前节点的位置。
+在自己电脑上的Linux虚拟机内运行时间是6s左右，超出了作业要求的3s时限，因此代码还有待进一步优化。
 
-3.如果节点只有一个子节点，可以直接删除该节点，并将其子节点提升到该位置。
-
-最后delete current，从内存中删除节点，避免内存泄漏，然后调用balance()函数，保持树的平衡。
 \end{document}
 
 %%% Local Variables: 
