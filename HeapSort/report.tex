@@ -67,7 +67,7 @@
 
 \section{时间复杂度分析}
 
-在heapsort()函数中，make\_heap()被调用一次，时间复杂度为O(n)。pop\_heap()在循环中被调用n次每次的时间复杂度为O(log n)，这部分的时间复杂度为O(n log n)。综合以上两部分，总的时间复杂度为O(n log n)。heapsort()和std::sort\_heap在理论上具有相同的时间复杂度，但在实际应用中可能由于缓存局部性的影响导致std::sort\_heap效率略高。
+在heapsort()函数中，make\_heap()被调用一次，时间复杂度为O(n)。pop\_heap()在循环中被调用n次每次的时间复杂度为O(log n)，这部分的时间复杂度为O(n log n)。综合以上两部分，总的时间复杂度为O(n log n)。heapsort()和std::sort\_heap在理论上具有相同的时间复杂度，但在实际应用中可能由于缓存的局部性原理导致std::sort\_heap效率略高。
 
 \end{document}
 
