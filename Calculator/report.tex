@@ -1,0 +1,62 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry, CJKutf8}
+\geometry{margin=1.5cm, vmargin={0pt,1cm}}
+\setlength{\topmargin}{-1cm}
+\setlength{\paperheight}{29.7cm}
+\setlength{\textheight}{25.3cm}
+
+% useful packages.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage{layout}
+\usepackage{listings}
+\usepackage{float, caption}
+
+\lstset{
+    basicstyle=\ttfamily, basewidth=0.5em
+}
+
+% some common command
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\difFrac}[2]{\frac{\dif #1}{\dif #2}}
+\newcommand{\pdfFrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\OFL}{\mathrm{OFL}}
+\newcommand{\UFL}{\mathrm{UFL}}
+\newcommand{\fl}{\mathrm{fl}}
+\newcommand{\op}{\odot}
+\newcommand{\Eabs}{E_{\mathrm{abs}}}
+\newcommand{\Erel}{E_{\mathrm{rel}}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{}
+\lhead{李业翔, 3220103288}
+\chead{数据结构与算法项目作业}
+\rhead{Dec.22th, 2024}
+
+\section{设计思路}
+
+在头文件里完成大部分工作。思路是将对表达式合法性的判断与表达式值的计算在一定程度上分离，分别定义了isValid()和evaluate()。定义一个计算器类，其中有两个公开方法和三个私有方法。evaluate()和isValid()是公开方法，evaluate()用于计算给定表达式的值，isValid()用于检查给定的表达式是否有效。precedence()、applyOperation()和isOperator()是私有方法，precedence()用于确定运算符的优先级，applyOperation()用于两个数之间的运算，isOperator()用于检查字符是否为运算符。
+
+三个私有方法的实现比较简单，不多作介绍，唯一值得注意的是applyOperation()中要对除数为0的情况进行异常处理。
+isValid()返回值是bool类型，实现中需要定义两个变量分别是balance和lastWasOperator，分别用于跟踪括号的匹配性和上一个字符是否为操作符。将输入视为字符串，用for循环去遍历，再分类讨论遇到的各种情况，并根据要求在一些情况下设置异常处理。
+evaluate()返回小数类型的值，主要用到两个栈，一个是用来存储数字的values栈，另一个是用来存储运算符和括号的ops栈。当遇到右括号时，就将括号里的值算出来，这里用到了while循环是因为括号里可能不止一个运算符。当遇到优先级高的运算符时，直接进行计算，将结果存入values栈。最后再处理剩下的运算符，计算出最终结果。
+
+\section{结果分析}
+
+完成了作业的基本要求并进行了完备的测试，测试结果都是正确的。
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
