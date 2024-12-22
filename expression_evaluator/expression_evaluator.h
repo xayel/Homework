@@ -46,7 +46,7 @@ double ExpressionEvaluator::applyOperation(double a, double b, char op) {
 
 bool ExpressionEvaluator::isValid(const std::string& expression) {
     int balance = 0;
-    bool lastWasOperator = true; // Start with true to allow a number at the beginning
+    bool lastWasOperator = true;
     for (size_t i = 0; i < expression.length(); ++i) {
         char c = expression[i];
         if (isspace(c)) continue;
@@ -63,10 +63,10 @@ bool ExpressionEvaluator::isValid(const std::string& expression) {
         } else if (isdigit(c) || (c == '.' && isdigit(expression[i - 1]))) {
             lastWasOperator = false;
         } else {
-            return false; // Invalid character
+            return false;
         }
     }
-    return balance == 0 && !lastWasOperator; // Must end with a number
+    return balance == 0 && !lastWasOperator;
 }
 
 double ExpressionEvaluator::evaluate(const std::string& expression) {
@@ -98,7 +98,7 @@ double ExpressionEvaluator::evaluate(const std::string& expression) {
                 char op = ops.top(); ops.pop();
                 values.push(applyOperation(a, b, op));
             }
-            ops.pop(); // Remove '('
+            ops.pop();
             i++;
         } else if (isOperator(expression[i])) {
             while (!ops.empty() && precedence(ops.top()) >= precedence(expression[i])) {
@@ -122,4 +122,4 @@ double ExpressionEvaluator::evaluate(const std::string& expression) {
     return values.top();
 }
 
-#endif // EXPRESSION_EVALUATOR_H
+#endif
